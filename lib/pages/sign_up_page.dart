@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shamo/providers/auth_provider.dart';
 import 'package:flutter_shamo/theme.dart';
+import 'package:provider/provider.dart';
 
 class SignUpPage extends StatelessWidget {
+  TextEditingController nameController = TextEditingController(text: '');
+  TextEditingController usernameController = TextEditingController(text: '');
+  TextEditingController emailController = TextEditingController(text: '');
+  TextEditingController passwordController = TextEditingController(text: '');
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+
+    handleSignUp() async {
+      if (await authProvider.register(
+        name: nameController.text,
+        username: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+      )) {
+        Navigator.pushNamed(context, '/home');
+      }
+    }
+
     Widget header() {
       return Container(
         margin: EdgeInsets.only(top: 30),
@@ -67,6 +86,7 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: nameController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your full name',
                           hintStyle: subtitleTextStyle,
@@ -120,6 +140,7 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: usernameController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your username',
                           hintStyle: subtitleTextStyle,
@@ -173,6 +194,7 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: emailController,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your email addres',
                           hintStyle: subtitleTextStyle,
@@ -226,6 +248,7 @@ class SignUpPage extends StatelessWidget {
                     Expanded(
                       child: TextFormField(
                         style: primaryTextStyle,
+                        controller: passwordController,
                         obscureText: true,
                         decoration: InputDecoration.collapsed(
                           hintText: 'Your password',
@@ -248,9 +271,7 @@ class SignUpPage extends StatelessWidget {
         width: double.infinity,
         margin: EdgeInsets.only(top: 30),
         child: TextButton(
-          onPressed: () {
-            Navigator.pushNamed(context, '/home');
-          },
+          onPressed: handleSignUp,
           style: TextButton.styleFrom(
             backgroundColor: primaryColor,
             shape: RoundedRectangleBorder(
@@ -297,6 +318,7 @@ class SignUpPage extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: backgroundColor1,
+      resizeToAvoidBottomInset: false,
       body: SafeArea(
         child: Container(
           margin: EdgeInsets.symmetric(

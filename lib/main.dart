@@ -9,6 +9,8 @@ import 'package:flutter_shamo/pages/product_pages.dart';
 import 'package:flutter_shamo/pages/sign_in_page.dart';
 import 'package:flutter_shamo/pages/sign_up_page.dart';
 import 'package:flutter_shamo/pages/splash_page.dart';
+import 'package:flutter_shamo/providers/auth_provider.dart';
+import 'package:provider/provider.dart';
 import 'theme.dart';
 
 void main() => runApp(MyApp());
@@ -16,20 +18,27 @@ void main() => runApp(MyApp());
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      routes: {
-        '/': (contex) => SplashPage(),
-        '/sign-in': (contex) => SignInPage(),
-        '/sign-up': (contex) => SignUpPage(),
-        '/home': (contex) => MainPage(),
-        '/detail-chat': (contex) => DetailChatPage(),
-        '/edit-profile': (contex) => EditProfilePage(),
-        '/product': (contex) => ProductPage(),
-        '/cart': (contex) => CartPage(),
-        '/checkout': (contex) => CheckoutPage(),
-        '/checkout-success': (contex) => CheckoutSuccessPage(),
-      },
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (context) => AuthProvider(),
+        ),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        routes: {
+          '/': (contex) => SplashPage(),
+          '/sign-in': (contex) => SignInPage(),
+          '/sign-up': (contex) => SignUpPage(),
+          '/home': (contex) => MainPage(),
+          '/detail-chat': (contex) => DetailChatPage(),
+          '/edit-profile': (contex) => EditProfilePage(),
+          '/product': (contex) => ProductPage(),
+          '/cart': (contex) => CartPage(),
+          '/checkout': (contex) => CheckoutPage(),
+          '/checkout-success': (contex) => CheckoutSuccessPage(),
+        },
+      ),
     );
   }
 }
