@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shamo/models/product_model.dart';
+import 'package:flutter_shamo/models/user_model.dart';
+import 'package:flutter_shamo/providers/auth_provider.dart';
 import 'package:flutter_shamo/theme.dart';
+import 'package:provider/provider.dart';
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -30,14 +36,14 @@ class ProfilePage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Hello, Alex',
+                        'Hello, ${user.name}',
                         style: primaryTextStyle.copyWith(
                           fontSize: 24,
                           fontWeight: semibold,
                         ),
                       ),
                       Text(
-                        '@alexrins',
+                        '@${user.username}',
                         style: subtitleTextStyle.copyWith(
                           fontSize: 16,
                         ),

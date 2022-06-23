@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shamo/models/user_model.dart';
+import 'package:flutter_shamo/providers/auth_provider.dart';
+import 'package:flutter_shamo/providers/product_provider.dart';
 import 'package:flutter_shamo/theme.dart';
-import 'package:flutter_shamo/widgets/product_cart.dart';
+import 'package:flutter_shamo/widgets/product_card.dart';
 import 'package:flutter_shamo/widgets/product_tile.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    AuthProvider authProvider = Provider.of<AuthProvider>(context);
+    UserModel user = authProvider.user;
+    ProductProvider productProvider = Provider.of<ProductProvider>(context);
+    print('jumlah produk homepage: ${productProvider.products.length}');
     Widget header() {
       return Container(
         margin: EdgeInsets.only(
@@ -20,14 +28,14 @@ class HomePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hello, Alex Rins',
+                    'Hello, ${user.name}',
                     style: primaryTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: semibold,
                     ),
                   ),
                   Text(
-                    '@alexrins',
+                    '@${user.username}',
                     style: subtitleTextStyle.copyWith(
                       fontSize: 16,
                     ),
@@ -200,11 +208,11 @@ class HomePage extends StatelessWidget {
                 width: defaultMargin,
               ),
               Row(
-                children: [
-                  ProductCart(),
-                  ProductCart(),
-                  ProductCart(),
-                ],
+                children: productProvider.products
+                    .map(
+                      (product) => ProductCard(product),
+                    )
+                    .toList(),
               ),
             ],
           ),
@@ -235,12 +243,11 @@ class HomePage extends StatelessWidget {
           top: 10,
         ),
         child: Column(
-          children: [
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-            ProductTile(),
-          ],
+          children: productProvider.products
+              .map(
+                (product) => ProductTile(product),
+              )
+              .toList(),
         ),
       );
     }

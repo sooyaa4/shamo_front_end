@@ -1,13 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shamo/models/product_model.dart';
+import 'package:flutter_shamo/pages/product_pages.dart';
 import 'package:flutter_shamo/theme.dart';
 
 // ignore: use_key_in_widget_constructors
-class ProductCart extends StatelessWidget {
+class ProductCard extends StatelessWidget {
+  final ProductModel product;
+  ProductCard(this.product);
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/product');
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductPage(product),
+          ),
+        );
       },
       child: Container(
         width: 215,
@@ -25,8 +34,8 @@ class ProductCart extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Image.asset(
-              'assets/image_shoes.png',
+            Image.network(
+              product.galleries[0].url,
               width: 225,
               height: 150,
               fit: BoxFit.cover,
@@ -39,7 +48,7 @@ class ProductCart extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Hiking',
+                    product.category.name,
                     style: secondaryTextStyle.copyWith(
                       fontSize: 12,
                     ),
@@ -48,13 +57,14 @@ class ProductCart extends StatelessWidget {
                     height: 6,
                   ),
                   Text(
-                    'CORT VISION 2.0',
+                    product.name,
                     style: blackTextStyle.copyWith(
                         fontSize: 18, fontWeight: semibold),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
                   ),
                   Text(
-                    '\$58,67',
+                    '\$${product.price}',
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: medium,
