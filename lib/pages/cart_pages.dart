@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shamo/providers/cart_provider.dart';
 import 'package:flutter_shamo/theme.dart';
 import 'package:flutter_shamo/widgets/cart_card.dart';
+import 'package:provider/provider.dart';
 
 class CartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    CartProvider cartProvider = Provider.of<CartProvider>(context);
     Widget header() {
       return AppBar(
         backgroundColor: backgroundColor1,
@@ -39,7 +42,7 @@ class CartPage extends StatelessWidget {
               height: 12,
             ),
             Text(
-              'Let\'s Find your favorite shoes',
+              'Let\'s Find your favorite product',
               style: subtitleTextStyle,
             ),
             Container(
@@ -75,9 +78,11 @@ class CartPage extends StatelessWidget {
     Widget content() {
       return ListView(
         padding: EdgeInsets.symmetric(horizontal: defaultMargin),
-        children: [
-          CartCard(),
-        ],
+        children: cartProvider.carts
+            .map(
+              (cart) => CartCard(cart),
+            )
+            .toList(),
       );
     }
 
@@ -98,7 +103,7 @@ class CartPage extends StatelessWidget {
                     style: primaryTextStyle,
                   ),
                   Text(
-                    '\$9012,00',
+                    '\$${cartProvider.totalPrice()}',
                     style: priceTextStyle.copyWith(
                       fontSize: 16,
                       fontWeight: semibold,
@@ -159,8 +164,9 @@ class CartPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor3,
       appBar: header(),
-      body: content(),
-      bottomNavigationBar: customButtomNav(),
+      body: cartProvider.carts.length == 0 ? emptyCart() : content(),
+      bottomNavigationBar:
+          cartProvider.carts.length == 0 ? SizedBox() : customButtomNav(),
     );
   }
 }

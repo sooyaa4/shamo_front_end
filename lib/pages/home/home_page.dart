@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
     AuthProvider authProvider = Provider.of<AuthProvider>(context);
     UserModel user = authProvider.user;
     ProductProvider productProvider = Provider.of<ProductProvider>(context);
-    print('jumlah produk homepage: ${productProvider.products.length}');
+    // print('jumlah produk homepage: ${productProvider.products.length}');
     Widget header() {
       return Container(
         margin: EdgeInsets.only(

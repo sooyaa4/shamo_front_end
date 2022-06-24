@@ -3,10 +3,10 @@ import 'package:flutter_shamo/models/product_model.dart';
 import 'package:flutter_shamo/pages/product_pages.dart';
 import 'package:flutter_shamo/theme.dart';
 
-// ignore: use_key_in_widget_constructors
 class ProductCard extends StatelessWidget {
   final ProductModel product;
   ProductCard(this.product);
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -34,8 +34,14 @@ class ProductCard extends StatelessWidget {
             SizedBox(
               height: 30,
             ),
-            Image.network(
-              product.galleries[0].url,
+            // Image.network(
+            //   product.galleries[0].url,
+            //   width: 225,
+            //   height: 150,
+            //   fit: BoxFit.cover,
+            // ),
+            Image.asset(
+              'assets/image_shoes.png',
               width: 225,
               height: 150,
               fit: BoxFit.cover,
